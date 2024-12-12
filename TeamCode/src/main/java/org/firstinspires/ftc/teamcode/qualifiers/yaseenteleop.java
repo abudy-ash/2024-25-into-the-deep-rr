@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.qualifiers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+@TeleOp(name="driveTrain")
 public class yaseenteleop extends LinearOpMode {
 
     hardwaremap hardware = new hardwaremap();
