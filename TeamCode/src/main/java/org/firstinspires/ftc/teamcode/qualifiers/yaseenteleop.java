@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-@TeleOp(name="driveTrain")
+@TeleOp
 public class yaseenteleop extends LinearOpMode {
 
     hardwaremap hardware = new hardwaremap();

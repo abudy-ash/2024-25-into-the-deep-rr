@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.qualifiers;
+package org.firstinspires.ftc.teamcode.testchassis;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -8,14 +8,17 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-public class hardwaremap {
+public class hardwaremapTestChassis {
     public DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
+
+
     public IMU imu;
     public WebcamName camera;
 
     HardwareMap hwMap;
 
-    public void hardwaremap() {
+
+    public void hardwaremapTestChassis() {
 
     }
 
@@ -28,13 +31,13 @@ public class hardwaremap {
         frontLeftDrive = hwMap.get(DcMotorEx.class,"frontLeft");
 
         imu = hwMap.get(IMU.class,"imu");
-       // camera = hwMap.get(WebcamName.class,"camera");
+        // camera = hwMap.get(WebcamName.class,"camera");
 
         // Motor Direction
-        backRightDrive.setDirection(DcMotorEx.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotorEx.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotorEx.Direction.FORWARD);
         frontRightDrive.setDirection(DcMotorEx.Direction.FORWARD);
-        frontLeftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Setting Power to 0
         backRightDrive.setPower(0);
@@ -53,7 +56,9 @@ public class hardwaremap {
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
+
 
     public void robotPower(double power) {
         backRightDrive.setPower(power);
