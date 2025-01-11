@@ -36,16 +36,16 @@ public class yaseenteleop extends LinearOpMode {
 
             // 2nd gamepad
 
-            double s = gamepad2.left_stick_y;
+            double a =gamepad2.left_stick_y;
 
-            double spoolPower = s;
+            double armPower = a;
 
             hardware.frontLeftDrive.setPower(frontLeftPower * 1);
             hardware.frontRightDrive.setPower(frontRightPower * 1);
             hardware.backLeftDrive.setPower(backLeftPower * 1);
             hardware.backRightDrive.setPower(backRightPower * 1);
 
-            hardware.arm.setPower(spoolPower * 0.75);
+            hardware.arm.setPower(armPower * 1);
 
             telemetry.addData("backleftDrive", hardware.backLeftDrive.getCurrent(amps));
             telemetry.update();
