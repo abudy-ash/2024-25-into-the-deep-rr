@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 @TeleOp(group = "test chassis")
 public class teleOpTestChassis extends LinearOpMode {
 
-    hardwaremapTestChassis hardware = new hardwaremapTestChassis();
+   hardwaremapTestChassis hardware = new hardwaremapTestChassis();
     CurrentUnit amps;
 
 
@@ -28,9 +28,11 @@ public class teleOpTestChassis extends LinearOpMode {
 
 
             // Main loop to set motor power
-            double x = ScaleInputDrive(gamepad1.left_stick_y);
-            double y = ScaleInputDrive(gamepad1.right_stick_y);
-            double r = ScaleInputDrive(gamepad1.right_stick_x);
+            double x = (gamepad1.left_stick_x * 0.5);
+            double y = (gamepad1.left_stick_y* 0.5) ;
+            double r = (gamepad1.right_stick_x* 0.5);
+
+            hardware.camera.arrows();
 
             double frontLeftPower = y + x + r;
             double frontRightPower = y - x - r;

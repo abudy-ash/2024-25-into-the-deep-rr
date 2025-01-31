@@ -1,0 +1,5 @@
+//package org.firstinspires.ftc.teamcode.qualifiers;
+//import com.acmerobotics.roadrunner.Pose2d;
+//public class PoseStorage {
+//    public static Pose2d currentPose = new Pose2d();
+//}

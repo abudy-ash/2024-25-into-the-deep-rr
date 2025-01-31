@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.testchassis;
 
+import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,9 +12,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 public class hardwaremapTestChassis {
     public DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
 
+    public HuskyLens camera;
+
 
     public IMU imu;
-    public WebcamName camera;
 
     HardwareMap hwMap;
 
@@ -29,6 +31,8 @@ public class hardwaremapTestChassis {
         backLeftDrive = hwMap.get(DcMotorEx.class, "backLeft");
         frontRightDrive = hwMap.get(DcMotorEx.class,"frontRight");
         frontLeftDrive = hwMap.get(DcMotorEx.class,"frontLeft");
+
+        camera = hwMap.get(HuskyLens.class, "camera");
 
         imu = hwMap.get(IMU.class,"imu");
         // camera = hwMap.get(WebcamName.class,"camera");

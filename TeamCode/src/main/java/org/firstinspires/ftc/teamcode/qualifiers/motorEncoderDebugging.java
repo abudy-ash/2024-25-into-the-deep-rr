@@ -1,38 +1,33 @@
 package org.firstinspires.ftc.teamcode.qualifiers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.qualifiers.hardwaremap;
+
+@TeleOp
 public class motorEncoderDebugging extends LinearOpMode {
-
-    double newTarget;
-    double ticks = 560;
-
-
+    hardwaremap hardware = new hardwaremap();
+    double encoderReading = 0;
+    CRServo servo;
     @Override
     public void runOpMode() throws InterruptedException {
-        DcMotor motor = hardwareMap.dcMotor.get("motor");
-        motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        motor.setPower(0);
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hardware.init(hardwareMap);
 
+        waitForStart();
 
-        while (opModeIsActive()){
+        if (isStopRequested()) return;
 
-            if (gamepad1.a) {
-                encoder(2);
-            }
-
+        while (opModeIsActive()) {
+           // encoderReading = hardware.
 
         }
-
-
-    }
-
-    public void encoder(int turnage) {
-        newTarget = ticks/turnage;
     }
 }

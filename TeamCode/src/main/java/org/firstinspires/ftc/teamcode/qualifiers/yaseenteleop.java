@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.qualifiers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
@@ -19,37 +20,53 @@ public class yaseenteleop extends LinearOpMode {
         waitForStart();
 
         // init loop
-        while (!isStarted() && !isStopRequested()) {
+        while (!isStarted()) {
             telemetry.addLine("this is the init loop. pluh");
+            telemetry.update();
         }
 
         // when play is pressed
         while (opModeIsActive()) {
+            armDebugging();
+            if (gamepad2.left_stick_button) {
+                hardware.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
             double x = gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
             double r = gamepad1.right_stick_x;
+
+
 
             double frontLeftPower = y + x + r;
             double frontRightPower = y - x - r;
             double backLeftPower = y - x + r;
             double backRightPower = y + x - r;
 
-            // 2nd gamepad
+            hardware.frontLeftDrive.setPower(frontLeftPower * .3);
+            hardware.frontRightDrive.setPower(frontRightPower * .3);
+            hardware.backLeftDrive.setPower(backLeftPower * .3);
+            hardware.backRightDrive.setPower(backRightPower * .3);
 
-            double a =gamepad2.left_stick_y;
-
-            double armPower = a;
-
-            hardware.frontLeftDrive.setPower(frontLeftPower * 1);
-            hardware.frontRightDrive.setPower(frontRightPower * 1);
-            hardware.backLeftDrive.setPower(backLeftPower * 1);
-            hardware.backRightDrive.setPower(backRightPower * 1);
-
-            hardware.arm.setPower(armPower * 1);
-
-            telemetry.addData("backleftDrive", hardware.backLeftDrive.getCurrent(amps));
+           // telemetry.addData("backleftDrive", hardware.backLeftDrive.getCurrent(amps));
             telemetry.update();
+
+
         }
+
+    }
+
+    public void armDebugging() {
+        hardware.arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        hardware.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        int armPosition = hardware.arm.getCurrentPosition();
+
+        telemetry.addData("Arm position", armPosition);
+        telemetry.update();
+
+        double armPower = gamepad2.left_stick_y;
+        hardware.arm.setPower(armPower);
+
 
     }
 }
