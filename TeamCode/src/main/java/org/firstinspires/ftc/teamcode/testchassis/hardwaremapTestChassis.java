@@ -5,35 +5,34 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
 public class hardwaremapTestChassis {
     public DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
-
-
     public IMU imu;
-    public WebcamName camera;
+    public I2cDeviceSynch huskyLens;  // Corrected HuskyLens declaration
 
     HardwareMap hwMap;
 
-
     public void hardwaremapTestChassis() {
-
     }
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
+        // Initialize motors
         backRightDrive = hwMap.get(DcMotorEx.class, "backRight");
         backLeftDrive = hwMap.get(DcMotorEx.class, "backLeft");
         frontRightDrive = hwMap.get(DcMotorEx.class,"frontRight");
         frontLeftDrive = hwMap.get(DcMotorEx.class,"frontLeft");
 
         imu = hwMap.get(IMU.class,"imu");
-        // camera = hwMap.get(WebcamName.class,"camera");
 
-        // Motor Direction
+        // Initialize HuskyLens I2C
+        huskyLens = hwMap.get(I2cDeviceSynch.class, "huskyLens");
+        huskyLens.engage();  // Ensure the I2C device is engaged
+
+        // Motor Directions
         backRightDrive.setDirection(DcMotorEx.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotorEx.Direction.FORWARD);
         frontRightDrive.setDirection(DcMotorEx.Direction.FORWARD);
@@ -56,14 +55,17 @@ public class hardwaremapTestChassis {
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
     }
-
 
     public void robotPower(double power) {
         backRightDrive.setPower(power);
         backLeftDrive.setPower(power);
         frontLeftDrive.setPower(power);
         frontRightDrive.setPower(power);
+    }
+
+    // Method to read from HuskyLens
+    public byte[] readHuskyLensData(int register, int length) {
+        return huskyLens.read(register, length);
     }
 }
