@@ -18,7 +18,7 @@ public class regionalsTeleOp extends OpMode {
 
     // Intake Servos
     Servo claw;
-    CRServo linkage;
+    CRServo linkage, wrist;
 
     public void darshTeleOp(){
 
@@ -55,9 +55,14 @@ public class regionalsTeleOp extends OpMode {
                     double armLength = (gamepad2.right_stick_y+1)/2; // Transforms range of -1 to 1 onto servo power of 0 to 1
                     linkage.setPower(armLength);
 
-                // Claw Servo
-                    if (gamepad2.left_bumper) {claw.setPosition(0);}
-                    if (gamepad2.right_bumper) {claw.setPosition(1);}
+                // Claw Servos
+                    // Claw Wrist
+                        if (gamepad2.dpad_down) {claw.setPosition(0);}
+                        if (gamepad2.dpad_up) {claw.setPosition(1);}
+
+                    // Claw
+                        if (gamepad2.left_bumper) {claw.setPosition(0);}
+                        if (gamepad2.right_bumper) {claw.setPosition(1);}
 
 
         telemetry.update();
@@ -77,6 +82,7 @@ public class regionalsTeleOp extends OpMode {
 
         claw = hardwareMap.get(Servo.class, "claw");
         linkage = hardwareMap.get(CRServo.class, "linkage");
+        wrist = hardwareMap.get(CRServo.class, "wrist");
 
         // Zero Brake behavior
 
