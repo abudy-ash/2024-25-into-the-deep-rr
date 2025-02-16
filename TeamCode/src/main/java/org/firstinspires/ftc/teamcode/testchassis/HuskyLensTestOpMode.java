@@ -17,9 +17,9 @@ public class HuskyLensTestOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            byte[] data = robot.readHuskyLensData(0x32, 5); // Read 5 bytes from HuskyLens
-            telemetry.addData("HuskyLens Data", data);
-            telemetry.update();
+//            byte[] data = robot.readHuskyLensData(0x32, 5); // Read 5 bytes from HuskyLens
+//            telemetry.addData("HuskyLens Data", data);
+//            telemetry.update();
         }
     }
 }
