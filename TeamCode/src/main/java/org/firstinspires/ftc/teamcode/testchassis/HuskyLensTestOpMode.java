@@ -1,25 +1,57 @@
 package org.firstinspires.ftc.teamcode.testchassis;
 
+import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
+import java.util.concurrent.TimeUnit;
+
 @TeleOp(name="HuskyLens Test", group="Test")
 public class HuskyLensTestOpMode extends LinearOpMode {
-    hardwaremapTestChassis robot = new hardwaremapTestChassis();
+//    hardwaremapTestChassis robot = new hardwaremapTestChassis();
+
+    HuskyLens huskyLens;
+    final int READ_PERIOD = 1;
+
+
 
     @Override
     public void runOpMode() {
-        robot.init(hardwareMap);
+        huskyLens = hardwareMap.get(HuskyLens.class,"huskyLens");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
+        rateLimit.expire();
+
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+
+
         waitForStart();
 
         while (opModeIsActive()) {
-//            byte[] data = robot.readHuskyLensData(0x32, 5); // Read 5 bytes from HuskyLens
-//            telemetry.addData("HuskyLens Data", data);
-//            telemetry.update();
+            if (!rateLimit.hasExpired()){
+                continue;
+            }
+            rateLimit.reset();
+
+            HuskyLens.Block[] blocks = huskyLens.blocks();
+            telemetry.addData("Block Count", blocks.length);
+            for (int i = 0; i < blocks.length; i++) {
+                int thisColorID = blocks[i].id;
+
+                if(thisColorID == 1){
+                    telemetry.addData("Color ID","Blue");
+                }
+                else if(thisColorID == 2){
+                    telemetry.addData("Color ID", "Skin");
+                }
+
+            }
+            telemetry.update();
         }
     }
 }

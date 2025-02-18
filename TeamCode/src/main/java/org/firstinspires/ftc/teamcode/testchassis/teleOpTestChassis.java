@@ -32,7 +32,7 @@ public class teleOpTestChassis extends LinearOpMode {
             double y = (gamepad1.left_stick_y* 0.5) ;
             double r = (gamepad1.right_stick_x* 0.5);
 
-            hardware.camera.arrows();
+//            hardware.camera.arrows();
 
             double frontLeftPower = y + x + r;
             double frontRightPower = y - x - r;
