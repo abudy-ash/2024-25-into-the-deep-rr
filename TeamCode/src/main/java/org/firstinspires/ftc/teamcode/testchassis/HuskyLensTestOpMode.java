@@ -43,13 +43,16 @@ public class HuskyLensTestOpMode extends LinearOpMode {
             for (int i = 0; i < blocks.length; i++) {
                 int thisColorID = blocks[i].id;
 
-                if(thisColorID == 1){
-                    telemetry.addData("Color ID","Blue");
+                switch(thisColorID){
+                    case 1:
+                        //Code for if it's Blue (ID = 1)
+                        telemetry.addData("Color ID","Blue");
+                        break;
+                    case 2:
+                        //Code for if it's Tan (ID = 2)
+                        telemetry.addData("Color ID", "Tan");
+                        break;
                 }
-                else if(thisColorID == 2){
-                    telemetry.addData("Color ID", "Skin");
-                }
-
             }
             telemetry.update();
         }
