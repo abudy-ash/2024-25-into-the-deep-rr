@@ -28,9 +28,9 @@ public class teleOpTestChassis extends LinearOpMode {
 
 
             // Main loop to set motor power
-            double x = (gamepad1.left_stick_x * 0.5);
-            double y = (gamepad1.left_stick_y* 0.5) ;
-            double r = (gamepad1.right_stick_x* 0.5);
+            double x = (gamepad1.left_stick_x * -0.5);
+            double y = (gamepad1.left_stick_y* -0.5) ;
+            double r = (gamepad1.right_stick_x* -0.5);
 
 //            hardware.camera.arrows();
 

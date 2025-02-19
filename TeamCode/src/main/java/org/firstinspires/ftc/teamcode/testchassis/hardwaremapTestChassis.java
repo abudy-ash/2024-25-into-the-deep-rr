@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
 public class hardwaremapTestChassis {
     public DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
     public IMU imu;
-    public I2cDeviceSynch huskyLens;  // Corrected HuskyLens declaration
+//    public I2cDeviceSynch huskyLens;  // Corrected HuskyLens declaration
 
     HardwareMap hwMap;
 
@@ -29,9 +29,9 @@ public class hardwaremapTestChassis {
 
         imu = hwMap.get(IMU.class,"imu");
 
-        // Initialize HuskyLens I2C
-        huskyLens = hwMap.get(I2cDeviceSynch.class, "huskyLens");
-        huskyLens.engage();  // Ensure the I2C device is engaged
+//        // Initialize HuskyLens I2C
+//        huskyLens = hwMap.get(I2cDeviceSynch.class, "huskyLens");
+//        huskyLens.engage();  // Ensure the I2C device is engaged
 
         // Motor Directions
         backRightDrive.setDirection(DcMotorEx.Direction.REVERSE);
@@ -65,8 +65,8 @@ public class hardwaremapTestChassis {
         frontRightDrive.setPower(power);
     }
 
-    // Method to read from HuskyLens
-    public byte[] readHuskyLensData(int register, int length) {
-        return huskyLens.read(register, length);
-    }
+//    // Method to read from HuskyLens
+//    public byte[] readHuskyLensData(int register, int length) {
+//        return huskyLens.read(register, length);
+//    }
 }
