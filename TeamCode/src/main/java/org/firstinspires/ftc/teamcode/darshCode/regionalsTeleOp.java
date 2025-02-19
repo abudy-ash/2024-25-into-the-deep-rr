@@ -35,7 +35,7 @@ public class regionalsTeleOp extends OpMode {
 
     // Sensors
     public IMU imu;
-    
+
     public void darshTeleOp(){
 
         // Movement
@@ -165,6 +165,8 @@ public class regionalsTeleOp extends OpMode {
 //                    colorDetected = "Yellow";
 //                    blinkinYellow();
 //                    break;
+//                default:
+//                    blinkinBlack();
 //            }
 //        }
 //    }
