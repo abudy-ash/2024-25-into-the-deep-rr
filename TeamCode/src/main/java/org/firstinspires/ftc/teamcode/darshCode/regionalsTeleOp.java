@@ -85,7 +85,7 @@ public class regionalsTeleOp extends OpMode {
                         if (gamepad2.right_bumper) {claw.setPosition(1);}
 
         //For Color Detection and updating the LED
-//        colorRecognition();
+        colorRecognition();
 
         telemetry.update();
 
@@ -95,13 +95,13 @@ public class regionalsTeleOp extends OpMode {
     public void init() {
 
         //Camera
-//        huskyLens = hardwareMap.get(HuskyLens.class,"huskyLens");
-//        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+        huskyLens = hardwareMap.get(HuskyLens.class,"huskyLens");
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 //
 //        //Initialized the LED Lights
-//        leftLights = hardwareMap.get(RevBlinkinLedDriver.class,"leftLights");
-//        rightLights = hardwareMap.get(RevBlinkinLedDriver.class,"rightLights");
-//        blinkinGreen();
+        leftLights = hardwareMap.get(RevBlinkinLedDriver.class,"leftLights");
+        rightLights = hardwareMap.get(RevBlinkinLedDriver.class,"rightLights");
+        blinkinGreen();
 
 
         // Initialization Code
@@ -138,65 +138,62 @@ public class regionalsTeleOp extends OpMode {
 
     }
 
-//    public void colorRecognition(){
-//        HuskyLens.Block[] blocks = huskyLens.blocks();
-//        telemetry.addData("Block Count", blocks.length);
-//        for (int i = 0; i < blocks.length; i++) {
-//            int thisColorID = blocks[i].id;
-//
-//            switch(thisColorID){
-//                case 1:
-//                    //Code for if it's Blue (ID = 1)
-//                    telemetry.addData("Color ID","Blue");
-//                    colorDetected = "Blue";
-//                    blinkinBlue();
-//                    break;
-//                case 2:
-//                    //SET UP RED AS ID = 2
-//                    //Code for if it's Red (ID = 2)
-//                    telemetry.addData("Color ID", "Red");
-//                    colorDetected = "Red";
-//                    blinkinRed();
-//                    break;
-//                case 3:
-//                    //SET UP YELLOW AS ID = 3
-//                    //Code for if it's Yellow (ID = 3)
-//                    telemetry.addData("Color ID","Yellow");
-//                    colorDetected = "Yellow";
-//                    blinkinYellow();
-//                    break;
-//                default:
-//                    blinkinBlack();
-//            }
-//        }
-//    }
-//
-//    public void blinkinRed(){
-//        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-//        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-//    }
-//    public void blinkinGreen(){
-//        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-//        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-//    }
-//    public void blinkinYellow(){
-//        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-//        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-//    }
-//    public void blinkinBlue(){
-//        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-//        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-//    }
-//    public void blinkinBlack(){
-//        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
-//        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
-//    }
-//
-//    @Override
-//    public void start(){
-//        //For led
-//        blinkinBlack();
-//    }
+    public void colorRecognition(){
+        HuskyLens.Block[] blocks = huskyLens.blocks();
+        telemetry.addData("Block Count", blocks.length);
+        for (int i = 0; i < blocks.length; i++) {
+            int thisColorID = blocks[i].id;
+
+            switch(thisColorID){
+                case 1:
+                    //Code for if it's Blue (ID = 1)
+                    telemetry.addData("Color ID","Blue");
+                    blinkinBlue();
+                    break;
+                case 2:
+                    //SET UP RED AS ID = 2
+                    //Code for if it's Red (ID = 2)
+                    telemetry.addData("Color ID", "Red");
+                    blinkinRed();
+                    break;
+                case 3:
+                    //SET UP YELLOW AS ID = 3
+                    //Code for if it's Yellow (ID = 3)
+                    telemetry.addData("Color ID","Yellow");
+                    blinkinYellow();
+                    break;
+                default:
+                    blinkinBlack();
+            }
+        }
+    }
+
+    public void blinkinRed(){
+        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+    }
+    public void blinkinGreen(){
+        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+    }
+    public void blinkinYellow(){
+        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+    }
+    public void blinkinBlue(){
+        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+    }
+    public void blinkinBlack(){
+        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+    }
+
+    @Override
+    public void start(){
+        //For led
+        blinkinBlack();
+    }
 
     @Override
     public void loop() {
