@@ -29,8 +29,7 @@ public class regionalsTeleOp extends OpMode {
     DcMotorEx linearLift, armRotator, hangingLeft, hangingRight;
 
     // Intake Servos
-    Servo claw, springLeft, springRight, linkage;
-    CRServo wrist;
+    Servo claw, springLeft, springRight, linkage, wrist;
 
     // Sensors
     public IMU imu;
@@ -38,8 +37,8 @@ public class regionalsTeleOp extends OpMode {
     public void darshTeleOp(){
 
         // Movement
-        double y = -gamepad1.left_stick_x; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_y * 1.1; // Counteract imperfect strafing
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_y;
 
         // Denominator is the largest motor power (absolute value) or 1
@@ -56,32 +55,110 @@ public class regionalsTeleOp extends OpMode {
         frontLeftDrive.setPower(-frontLeftPower);
         backLeftDrive.setPower(-backLeftPower);
 
-        // Hanging
+        //Gamepad 1
+            //Open Spring
+            if(gamepad1.x || gamepad1.square || gamepad1.triangle || gamepad1.circle){
+                //Test to see if 0 is open or close
+                springLeft.setPosition(0);
+                springRight.setPosition(0);
+            }
+
+            //Rotate hanging backwards
+            if(gamepad1.left_bumper){
+                //Test values
+                hangingLeft.setTargetPosition(1);
+                hangingRight.setTargetPosition(1);
+            }
+
+            //Rotate hanging forward
+            if(gamepad1.right_bumper){
+                //Test Values
+                hangingLeft.setTargetPosition(0);
+                hangingRight.setTargetPosition(0);
+            }
+
+            //Extend linear lift
+            if(gamepad1.left_trigger > 0.5){
+                linearLift.setTargetPosition(1);
+            }
+
+            //Retract linear lift
+            if(gamepad1.right_trigger > 0.5){
+                //These might be wrong values idk i'm losing my mind fix it later
+                //It's like 12 am i'm bugging out
+                linearLift.setTargetPosition(0);
+            }
 
 
-        // CONTROLLER 2
-            // Arm
-                // DC Motors
-                    linearLift.setPower(Math.pow(gamepad2.left_stick_y, 3)); // Joystick strength ranges from -1 to 1
+        //Gamepad 2
+            //Open claw
+            if(gamepad2.left_trigger > 0.5){
+                //Test if 0 or 1
+                claw.setPosition(0);
+            }
 
-                    // Get Angle from Triggers (these values range from 0-1)
-                    double angleUp = Math.pow(gamepad2.left_trigger, 3);
-                    double angleDown = -Math.pow(gamepad2.right_trigger, 3);
-                    double armAngle = angleUp + angleDown;
-                    armRotator.setPower(armAngle);
+            //Close claw
+            if(gamepad2.right_trigger > 0.5){
+                claw.setPosition(1);
+            }
 
-                // Arm Servo
-                    double armLength = (gamepad2.right_stick_y+1)/2; // Transforms range of -1 to 1 onto servo power of 0 to 1
-                    linkage.setPosition(armLength);
+            //Extend Horizontal Slide
+            if(gamepad2.dpad_up){
+                //Test if it's 0 or 1
+                linkage.setPosition(1);
+            }
 
-                // Claw Servos
-                    // Claw Wrist
-                        if (gamepad2.dpad_down) {claw.setPosition(0);}
-                        if (gamepad2.dpad_up) {claw.setPosition(1);}
+            //Retract Horizontal Slide
+            if(gamepad2.dpad_down){
+                linkage.setPosition(0);
+            }
 
-                    // Claw
-                        if (gamepad2.left_bumper) {claw.setPosition(0);}
-                        if (gamepad2.right_bumper) {claw.setPosition(1);}
+            if(gamepad2.left_stick_button){
+                //Find value
+                linearLift.setTargetPosition(1);
+            }
+
+            //Rotate arm
+            armRotator.setPower(gamepad2.right_stick_y);
+
+            //Wrist up
+            if(gamepad2.left_bumper){
+                wrist.setPosition(1);
+            }
+
+            //Wrist down
+            if(gamepad2.right_bumper){
+                wrist.setPosition(0);
+            }
+
+
+            //Add stuff for face buttons but idk which positions zeke wants
+
+
+            //OUT OF DATE STUFF SEE ABOVE
+//        // CONTROLLER 2
+//            // Arm
+//                // DC Motors
+//                    linearLift.setPower(Math.pow(gamepad2.left_stick_y, 3)); // Joystick strength ranges from -1 to 1
+//
+//                    // Get Angle from Triggers (these values range from 0-1)
+//                    double angleUp = Math.pow(gamepad2.left_trigger, 3);
+//                    double angleDown = -Math.pow(gamepad2.right_trigger, 3);
+//                    double armAngle = angleUp + angleDown;
+//                    armRotator.setPower(armAngle);
+//
+//                // Arm Servo
+//                    double armLength = (gamepad2.right_stick_y+1)/2; // Transforms range of -1 to 1 onto servo power of 0 to 1
+//                    linkage.setPosition(armLength);
+//
+//                // Claw Servos
+//                    // Claw Wrist
+//                        if (gamepad2.dpad_down) {claw.setPosition(0);}
+//                        if (gamepad2.dpad_up) {claw.setPosition(1);}
+//
+//                    // Claw
+//                        if (gamepad2.left_bumper) {claw.setPosition(0);}
+//                        if (gamepad2.right_bumper) {claw.setPosition(1);}
 
         //For Color Detection and updating the LED
         colorRecognition();
@@ -115,7 +192,7 @@ public class regionalsTeleOp extends OpMode {
 
         claw = hardwareMap.get(Servo.class, "claw");
         linkage = hardwareMap.get(Servo.class, "linkage");
-        wrist = hardwareMap.get(CRServo.class, "wrist");
+        wrist = hardwareMap.get(Servo.class, "wrist");
         springLeft = hardwareMap.get(Servo.class,"springLeft");
         springRight = hardwareMap.get(Servo.class,"springRight");
 
