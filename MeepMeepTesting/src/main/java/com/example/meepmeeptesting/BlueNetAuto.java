@@ -63,7 +63,7 @@ public class BlueNetAuto {
                 .waitSeconds(2)
 
                 // park
-                .strafeToLinearHeading(new Vector2d(-60, 60), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(25, 10), Math.toRadians(180))
 
 
 

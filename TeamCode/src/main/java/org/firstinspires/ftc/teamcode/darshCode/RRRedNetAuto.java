@@ -21,8 +21,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-@Autonomous(name="RR Blue Net Auto", group="Autonomous")
-public class RRBlueNetAuto extends LinearOpMode {
+@Autonomous(name="RR Red Net Auto", group="Autonomous")
+public class RRRedNetAuto extends LinearOpMode {
 
     DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
     Servo claw;
@@ -72,7 +72,7 @@ public class RRBlueNetAuto extends LinearOpMode {
         wrist = hardwareMap.get(CRServo.class, "wrist");
     }
 
-        //Add classes/actions here
+    //Add classes/actions here
     //https://rr.brott.dev/docs/v1-0/guides/centerstage-auto/
 
     @Override
@@ -81,57 +81,57 @@ public class RRBlueNetAuto extends LinearOpMode {
         InitializationCode();
 
         // instantiate your MecanumDrive at a particular pose.
-        Pose2d initialPose = new Pose2d(30, 60, Math.toRadians(0));
+        Pose2d initialPose = new Pose2d(-30, -60, Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         //Creates a new trajectory
         TrajectoryActionBuilder BlueNetAuto = drive.actionBuilder(initialPose)
+
                 // ASSUMING ONE BLOCK IS PRELOADED & PLACING INTO HIGH BUCKET
                 // move to bucket for pre-loaded
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
-                .afterTime(0,openClaw())
-
+                .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(-135))
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
                 // move to first block
-                .splineToLinearHeading(new Pose2d(36, 25.5, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-36, -25.5, Math.toRadians(180)), Math.toRadians(180))
                 // grab item
                 .waitSeconds(2)
 
                 // move to bucket
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(-135))
 
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
                 // move to second block
-                .splineToLinearHeading(new Pose2d(45, 25.5, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-45, -25.5, Math.toRadians(180)), Math.toRadians(180))
 
 
                 // grab item
                 .waitSeconds(2)
 
                 // move to bucket
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(-135))
 
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
                 // move to last block
-                .splineToLinearHeading(new Pose2d(55, 25.5, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-55, -25.5, Math.toRadians(180)), Math.toRadians(180))
 
                 // grab item
                 .waitSeconds(2)
 
                 // move to bucket
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(-135))
 
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
-                // park by touching low bar
-                .strafeToLinearHeading(new Vector2d(25, 10), Math.toRadians(180))
+                // park
+                .strafeToLinearHeading(new Vector2d(60, -60), Math.toRadians(180))
+
 
                 .endTrajectory();
 
@@ -160,14 +160,14 @@ public class RRBlueNetAuto extends LinearOpMode {
 //
 //        }
 
-        //Runs the trajectory
-        Actions.runBlocking(
-                new SequentialAction(
-                        trajectoryActionChosen
-                )
-        );
+            //Runs the trajectory
+            Actions.runBlocking(
+                    new SequentialAction(
+                            trajectoryActionChosen
+                    )
+            );
 
+        }
     }
-}
 }
 

@@ -20,18 +20,17 @@ public class regionalsTeleOp extends OpMode {
 
     HuskyLens huskyLens;
 
-    //Make sure on the robot confuguration it is set up to leftLights and rightLights
-    private RevBlinkinLedDriver leftLights,rightLights;
+    RevBlinkinLedDriver lights;
 
     // Regular Movement DC Motors
     DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
 
     // Intake-related DC Motors
-    DcMotorEx linearLift, armRotator;
+    DcMotorEx linearLift, armRotator, hangingLeft, hangingRight;
 
     // Intake Servos
-    Servo claw;
-    CRServo linkage, wrist;
+    Servo claw, springLeft, springRight, linkage;
+    CRServo wrist;
 
     // Sensors
     public IMU imu;
@@ -39,9 +38,9 @@ public class regionalsTeleOp extends OpMode {
     public void darshTeleOp(){
 
         // Movement
-        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-        double rx = gamepad1.right_stick_x;
+        double y = -gamepad1.left_stick_x; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_y * 1.1; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_y;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
@@ -52,10 +51,10 @@ public class regionalsTeleOp extends OpMode {
         double frontRightPower = (y - x - rx) / denominator;
         double backRightPower = (y + x - rx) / denominator;
 
-        frontRightDrive.setPower(frontRightPower);
-        backRightDrive.setPower(backRightPower);
-        frontLeftDrive.setPower(frontLeftPower);
-        backLeftDrive.setPower(backLeftPower);
+        frontRightDrive.setPower(-frontRightPower);
+        backRightDrive.setPower(-backRightPower);
+        frontLeftDrive.setPower(-frontLeftPower);
+        backLeftDrive.setPower(-backLeftPower);
 
         // Hanging
 
@@ -73,7 +72,7 @@ public class regionalsTeleOp extends OpMode {
 
                 // Arm Servo
                     double armLength = (gamepad2.right_stick_y+1)/2; // Transforms range of -1 to 1 onto servo power of 0 to 1
-                    linkage.setPower(armLength);
+                    linkage.setPosition(armLength);
 
                 // Claw Servos
                     // Claw Wrist
@@ -99,8 +98,7 @@ public class regionalsTeleOp extends OpMode {
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 //
 //        //Initialized the LED Lights
-        leftLights = hardwareMap.get(RevBlinkinLedDriver.class,"leftLights");
-        rightLights = hardwareMap.get(RevBlinkinLedDriver.class,"rightLights");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
         blinkinGreen();
 
 
@@ -109,13 +107,19 @@ public class regionalsTeleOp extends OpMode {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeft");
         frontRightDrive = hardwareMap.get(DcMotorEx.class,"frontRight");
         frontLeftDrive = hardwareMap.get(DcMotorEx.class,"frontLeft");
+        hangingLeft = hardwareMap.get(DcMotorEx.class, "hangingLeft");
+        hangingRight = hardwareMap.get(DcMotorEx.class, "hangingRight");
 
         linearLift = hardwareMap.get(DcMotorEx.class,"linearLift");
         armRotator = hardwareMap.get(DcMotorEx.class,"armRotator");
 
         claw = hardwareMap.get(Servo.class, "claw");
-        linkage = hardwareMap.get(CRServo.class, "linkage");
+        linkage = hardwareMap.get(Servo.class, "linkage");
         wrist = hardwareMap.get(CRServo.class, "wrist");
+        springLeft = hardwareMap.get(Servo.class,"springLeft");
+        springRight = hardwareMap.get(Servo.class,"springRight");
+
+
 
         imu = hardwareMap.get(IMU.class,"imu");
 
@@ -169,30 +173,25 @@ public class regionalsTeleOp extends OpMode {
     }
 
     public void blinkinRed(){
-        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
     }
     public void blinkinGreen(){
-        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
     }
     public void blinkinYellow(){
-        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
     }
     public void blinkinBlue(){
-        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
     }
     public void blinkinBlack(){
-        leftLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
-        rightLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
     }
 
     @Override
     public void start(){
         //For led
-        blinkinBlack();
+//        blinkinBlack();
     }
 
     @Override
