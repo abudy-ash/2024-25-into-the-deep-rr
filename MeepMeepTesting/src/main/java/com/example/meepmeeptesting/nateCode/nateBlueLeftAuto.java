@@ -1,11 +1,12 @@
 package com.example.meepmeeptesting.nateCode;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+
+import java.util.Vector;
 
 
 public class nateBlueLeftAuto {
@@ -18,19 +19,20 @@ public class nateBlueLeftAuto {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(30, 60, Math.toRadians(0)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(30, 60, Math.toRadians(270)))
 
                 // ASSUMING ONE BLOCK IS PRELOADED & PLACING INTO HIGH BUCKET
                 // move to bucket for pre-loaded
-                .strafeToLinearHeading(new Vector2d(6, 35), Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(6, 35), Math.toRadians(270))
 
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
-                .strafeToLinearHeading(new Vector2d(20, 55), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(40, 55), Math.toRadians(270))
 
-                // move to first block
-                .splineToLinearHeading(new Pose2d(36, 25.5, Math.toRadians(0)), Math.toRadians(0))
+                //move to first block
+                .strafeToLinearHeading(new Vector2d(36,25.5), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(-36, -25.5, Math.toRadians(180)), Math.toRadians(0))
                 // grab item
                 .waitSeconds(2)
 
@@ -66,6 +68,7 @@ public class nateBlueLeftAuto {
                 .waitSeconds(2)
 
                 // park
+                .strafeToLinearHeading(new Vector2d(50,10),Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(25, 10), Math.toRadians(180))
 
 

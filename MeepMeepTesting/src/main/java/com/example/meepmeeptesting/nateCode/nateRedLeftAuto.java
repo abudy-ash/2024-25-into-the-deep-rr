@@ -28,10 +28,10 @@ public class nateRedLeftAuto {
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
-                .splineToConstantHeading(new Vector2d(-40, -55), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-40, -55), Math.toRadians(90))
 
                  //move to first block
-                .splineToLinearHeading(new Pose2d(-36,-25.5, Math.toRadians(180)), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(-36,-25.5), Math.toRadians(180))
 //                .splineToLinearHeading(new Pose2d(-36, -25.5, Math.toRadians(180)), Math.toRadians(0))
                 // grab item
                 .waitSeconds(2)
