@@ -6,10 +6,8 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-import java.util.Vector;
 
-
-public class nateRedLeftAuto {
+public class nateRedBasketAuto {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 

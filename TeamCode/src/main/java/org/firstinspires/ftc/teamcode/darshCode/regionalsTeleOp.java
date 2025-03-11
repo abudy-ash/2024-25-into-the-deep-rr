@@ -63,30 +63,32 @@ public class regionalsTeleOp extends OpMode {
                 springRight.setPosition(0);
             }
 
-            //Rotate hanging backwards
+            //Extend linear lift
             if(gamepad1.left_bumper){
                 //Test values
+                linearLift.setTargetPosition(1);
+
+            }
+
+            //Retract linear lift
+            if(gamepad1.right_bumper){
+                //Test Values
+                linearLift.setTargetPosition(0);
+            }
+
+            //Rotate hanging backwards
+            if(gamepad1.left_trigger > 0.5){
                 hangingLeft.setTargetPosition(1);
                 hangingRight.setTargetPosition(1);
             }
 
+            //
             //Rotate hanging forward
-            if(gamepad1.right_bumper){
-                //Test Values
-                hangingLeft.setTargetPosition(0);
-                hangingRight.setTargetPosition(0);
-            }
-
-            //Extend linear lift
-            if(gamepad1.left_trigger > 0.5){
-                linearLift.setTargetPosition(1);
-            }
-
-            //Retract linear lift
             if(gamepad1.right_trigger > 0.5){
                 //These might be wrong values idk i'm losing my mind fix it later
                 //It's like 12 am i'm bugging out
-                linearLift.setTargetPosition(0);
+                hangingLeft.setTargetPosition(0);
+                hangingRight.setTargetPosition(0);
             }
 
 
@@ -130,7 +132,6 @@ public class regionalsTeleOp extends OpMode {
             if(gamepad2.right_bumper){
                 wrist.setPosition(0);
             }
-
 
             //Add stuff for face buttons but idk which positions zeke wants
 
@@ -230,21 +231,29 @@ public class regionalsTeleOp extends OpMode {
                     //Code for if it's Blue (ID = 1)
                     telemetry.addData("Color ID","Blue");
                     blinkinBlue();
+                    gamepad1.setLedColor(0,0,255,1);
+                    gamepad2.setLedColor(0,0,255,1);
                     break;
                 case 2:
                     //SET UP RED AS ID = 2
                     //Code for if it's Red (ID = 2)
                     telemetry.addData("Color ID", "Red");
                     blinkinRed();
+                    gamepad1.setLedColor(255,0,0,1);
+                    gamepad2.setLedColor(255,0,0,1);
                     break;
                 case 3:
                     //SET UP YELLOW AS ID = 3
                     //Code for if it's Yellow (ID = 3)
                     telemetry.addData("Color ID","Yellow");
                     blinkinYellow();
+                    gamepad1.setLedColor(225,225,0,1);
+                    gamepad2.setLedColor(225,225,0,1);
                     break;
                 default:
                     blinkinBlack();
+                    gamepad1.setLedColor(113,202,235,1);
+                    gamepad2.setLedColor(113,202,235,1);
             }
         }
     }

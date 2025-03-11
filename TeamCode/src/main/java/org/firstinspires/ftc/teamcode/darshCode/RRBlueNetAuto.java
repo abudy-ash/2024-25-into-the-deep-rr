@@ -30,9 +30,6 @@ public class RRBlueNetAuto extends LinearOpMode {
     DcMotorEx linearLift, armRotator;
     public IMU imu;
 
-    //Placeholder for vision replace this with the camera detection
-    int visionOutputPosition = 1;
-
 
 
     public class CloseClaw implements Action {
@@ -53,6 +50,8 @@ public class RRBlueNetAuto extends LinearOpMode {
             return false;
         }
     }
+
+
 
     public Action openClaw(){
         return new OpenClaw();
@@ -81,21 +80,23 @@ public class RRBlueNetAuto extends LinearOpMode {
         InitializationCode();
 
         // instantiate your MecanumDrive at a particular pose.
-        Pose2d initialPose = new Pose2d(30, 60, Math.toRadians(0));
+        Pose2d initialPose = new Pose2d(30, 60, Math.toRadians(270));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         //Creates a new trajectory
         TrajectoryActionBuilder BlueNetAuto = drive.actionBuilder(initialPose)
                 // ASSUMING ONE BLOCK IS PRELOADED & PLACING INTO HIGH BUCKET
                 // move to bucket for pre-loaded
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
-                .afterTime(0,openClaw())
+                .strafeToLinearHeading(new Vector2d(6, 35), Math.toRadians(270))
 
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
-                // move to first block
-                .splineToLinearHeading(new Pose2d(36, 25.5, Math.toRadians(0)), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(40, 55), Math.toRadians(270))
+
+                //move to first block
+                .strafeToLinearHeading(new Vector2d(36,25.5), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(-36, -25.5, Math.toRadians(180)), Math.toRadians(0))
                 // grab item
                 .waitSeconds(2)
 
@@ -130,44 +131,20 @@ public class RRBlueNetAuto extends LinearOpMode {
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
-                // park by touching low bar
+                // park
+                .strafeToLinearHeading(new Vector2d(50,10),Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(25, 10), Math.toRadians(180))
 
                 .endTrajectory();
 
 
-
-        //Repeat loop while waiting for start showiing position
-        while (!isStopRequested() && !opModeIsActive()) {
-            int position = visionOutputPosition;
-            telemetry.addData("Position during Init", position);
-            telemetry.update();
-        }
-        //Sets the final position for start
-        int startPosition = visionOutputPosition;
-        telemetry.addData("Starting Position", startPosition);
-        telemetry.update();
-
         waitForStart();
 
         if (isStopRequested()) return;
 
-        //Sets which trajectory to run based on position
-        Action trajectoryActionChosen;
-        if (startPosition == 1) {
-            trajectoryActionChosen = BlueNetAuto.build();
-//        } else if (startPosition == 2) {
-//
-//        }
-
         //Runs the trajectory
-        Actions.runBlocking(
-                new SequentialAction(
-                        trajectoryActionChosen
-                )
-        );
-
+        Actions.runBlocking(BlueNetAuto.build());
     }
 }
-}
+
 
