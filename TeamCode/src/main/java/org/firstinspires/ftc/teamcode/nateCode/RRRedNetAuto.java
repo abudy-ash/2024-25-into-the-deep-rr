@@ -23,15 +23,9 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class RRRedNetAuto extends LinearOpMode {
 
     DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
-    Servo claw;
-    CRServo linkage, wrist;
+    Servo claw,linkage, wrist;
     DcMotorEx linearLift, armRotator;
     public IMU imu;
-
-    //Placeholder for vision replace this with the camera detection
-    int visionOutputPosition = 1;
-
-
 
     public class CloseClaw implements Action {
         @Override
@@ -40,21 +34,104 @@ public class RRRedNetAuto extends LinearOpMode {
             return false;
         }
     }
-    public Action closeClaw() {
-        return new CloseClaw();
-    }
 
     public class OpenClaw implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            claw.setPosition(1.0);
+            claw.setPosition(1);
             return false;
         }
     }
 
-    public Action openClaw(){
-        return new OpenClaw();
+
+    public class ExtendLift implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            linearLift.setTargetPosition(1);
+            return false;
+        }
     }
+
+
+    public class RetractLift implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            linearLift.setTargetPosition(0);
+            return false;
+        }
+    }
+
+
+    public class WristUp implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            wrist.setPosition(1);
+            return false;
+        }
+    }
+
+
+    public class WristDown implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            wrist.setPosition(0);
+            return false;
+        }
+    }
+
+
+    public class SpecimenHeight implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            //find value
+            linearLift.setTargetPosition(1);
+            return false;
+        }
+    }
+
+    public class ExtendArm implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            linkage.setPosition(1);
+            return false;
+        }
+    }
+
+    public class RetractArm implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            linkage.setPosition(0);
+            return false;
+        }
+    }
+
+    public class ArmUp implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            armRotator.setTargetPosition(1);
+            return false;
+        }
+    }
+
+    public class ArmDown implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            armRotator.setTargetPosition(0);
+            return false;
+        }
+    }
+
+    public Action closeClaw() {return new CloseClaw();}
+    public Action openClaw(){return new OpenClaw();}
+    public Action extendLift() {return new ExtendLift();}
+    public Action retractLift() {return new RetractLift();}
+    public Action wristUp() {return new WristUp();}
+    public Action wristDown() {return new WristDown();}
+    public Action specimenHeight() {return new SpecimenHeight();}
+    public Action extendArm() {return new ExtendArm();}
+    public Action retractArm() {return new ExtendArm();}
+    public Action armUp() {return new ArmUp();}
+    public Action armDown() {return new ArmDown();}
 
     public void InitializationCode(){
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRight");
@@ -66,8 +143,8 @@ public class RRRedNetAuto extends LinearOpMode {
         armRotator = hardwareMap.get(DcMotorEx.class,"armRotator");
 
         claw = hardwareMap.get(Servo.class, "claw");
-        linkage = hardwareMap.get(CRServo.class, "linkage");
-        wrist = hardwareMap.get(CRServo.class, "wrist");
+        linkage = hardwareMap.get(Servo.class, "linkage");
+        wrist = hardwareMap.get(Servo.class, "wrist");
     }
 
     //Add classes/actions here
@@ -83,12 +160,14 @@ public class RRRedNetAuto extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         //Creates a new trajectory
-        TrajectoryActionBuilder BlueNetAuto = drive.actionBuilder(initialPose)
-
+        TrajectoryActionBuilder RedNetAuto = drive.actionBuilder(initialPose)
+                .afterTime(0,specimenHeight())
                 // ASSUMING ONE BLOCK IS PRELOADED & PLACING INTO HIGH BUCKET
                 // move to bucket for pre-loaded
                 .strafeToLinearHeading(new Vector2d(-6, -35), Math.toRadians(90))
-
+                .afterTime(0,extendArm())
+                .afterTime(1,openClaw())
+                .afterTime(1,retractArm())
                 // place into bucket (extend arm and release block)
                 .waitSeconds(2)
 
@@ -98,39 +177,45 @@ public class RRRedNetAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(-36,-25.5), Math.toRadians(180))
 //                .splineToLinearHeading(new Pose2d(-36, -25.5, Math.toRadians(180)), Math.toRadians(0))
                 // grab item
-                .waitSeconds(2)
+                .afterTime(0,closeClaw())
+                .afterTime(1,armUp())
 
                 // move to bucket
                 .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(225))
 
                 // place into bucket (extend arm and release block)
-                .waitSeconds(2)
-
+                .afterTime(0,extendArm())
+                .afterTime(1,openClaw())
+                .afterTime(1,retractArm())
                 // move to second block
                 .splineToLinearHeading(new Pose2d(-45, -25.5, Math.toRadians(180)), Math.toRadians(180))
 
 
                 // grab item
-                .waitSeconds(2)
-
+                .afterTime(0,armDown())
+                .afterTime(1,closeClaw())
+                .afterTime(1,armUp())
                 // move to bucket
                 .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(225))
 
                 // place into bucket (extend arm and release block)
-                .waitSeconds(2)
-
+                .afterTime(0,extendArm())
+                .afterTime(1,openClaw())
+                .afterTime(1,retractArm())
                 // move to last block
                 .splineToLinearHeading(new Pose2d(-55, -25.5, Math.toRadians(180)), Math.toRadians(180))
 
                 // grab item
-                .waitSeconds(2)
-
+                .afterTime(0,armDown())
+                .afterTime(1,closeClaw())
+                .afterTime(1,armUp())
                 // move to bucket
                 .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(225))
 
                 // place into bucket (extend arm and release block)
-                .waitSeconds(2)
-
+                .afterTime(0,extendArm())
+                .afterTime(1,openClaw())
+                .afterTime(1,retractArm())
                 // park
                 .strafeToLinearHeading(new Vector2d(-50,-10),Math.toRadians(0))
                 .strafeToLinearHeading(new Vector2d(-25, -10), Math.toRadians(0))
@@ -140,37 +225,14 @@ public class RRRedNetAuto extends LinearOpMode {
 
 
 
-        //Repeat loop while waiting for start showiing position
-        while (!isStopRequested() && !opModeIsActive()) {
-            int position = visionOutputPosition;
-            telemetry.addData("Position during Init", position);
-            telemetry.update();
-        }
-        //Sets the final position for start
-        int startPosition = visionOutputPosition;
-        telemetry.addData("Starting Position", startPosition);
-        telemetry.update();
 
         waitForStart();
 
-        if (isStopRequested()) return;
-
-        //Sets which trajectory to run based on position
-        Action trajectoryActionChosen;
-        if (startPosition == 1) {
-            trajectoryActionChosen = BlueNetAuto.build();
-//        } else if (startPosition == 2) {
-//
-//        }
 
             //Runs the trajectory
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectoryActionChosen
-                    )
-            );
+            Actions.runBlocking(RedNetAuto.build());
 
-        }
     }
 }
+
 

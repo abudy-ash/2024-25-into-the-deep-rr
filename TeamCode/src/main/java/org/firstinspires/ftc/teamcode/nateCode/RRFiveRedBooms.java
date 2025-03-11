@@ -18,8 +18,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-@Autonomous(name="RR Blue Net Auto", group="Autonomous")
-public class RRBlueNetAuto extends LinearOpMode {
+@Autonomous(name="Five RED Booms", group="Autonomous")
+public class RRFiveRedBooms extends LinearOpMode {
 
     DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
 
@@ -153,7 +153,7 @@ public class RRBlueNetAuto extends LinearOpMode {
         wrist = hardwareMap.get(Servo.class, "wrist");
     }
 
-        //Add classes/actions here
+    //Add classes/actions here
     //https://rr.brott.dev/docs/v1-0/guides/centerstage-auto/
 
     @Override
@@ -167,60 +167,47 @@ public class RRBlueNetAuto extends LinearOpMode {
 
         //Creates a new trajectory
         TrajectoryActionBuilder BlueNetAuto = drive.actionBuilder(initialPose)
-                // ASSUMING ONE SPECIMEN IS PRELOADED & PLACING INTO HIGH BUCKET
-                .afterTime(0,specimenHeight())
-                // move to high bar for pre-loaded
-                .strafeToLinearHeading(new Vector2d(6, 35), Math.toRadians(270))
-                .afterTime(0,extendArm())
-                .afterTime(1,openClaw())
-                .afterTime(1,retractArm())
-
-                .strafeToLinearHeading(new Vector2d(40, 55), Math.toRadians(270))
-
-                //move to first block
-                .strafeToLinearHeading(new Vector2d(36,25.5), Math.toRadians(0))
-
+                .afterTime(0,armDown())
                 .afterTime(0,closeClaw())
-                .afterTime(1,armUp())
+                .strafeToLinearHeading(new Vector2d(35,-60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(35,38),Math.toRadians(90))
 
-                // move to bucket
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(46.5,38),Math.toRadians(-90))
+
+                .strafeToLinearHeading(new Vector2d(46.5,0),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(46.5,38),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(57.5,38),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(57.5,0),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(57.5,38),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(61,38),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(61,-20),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(61,-10),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(35,-10),Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(35,-60),Math.toRadians(270))
+                .afterTime(0,specimenHeight())
+                .afterTime(0,armUp())
                 .afterTime(0,extendArm())
-                .afterTime(1,openClaw())
-                .afterTime(1,retractArm())
-                // place into bucket (extend arm and release block)
-
-                // move to second block
-                .splineToLinearHeading(new Pose2d(45, 25.5, Math.toRadians(0)), Math.toRadians(0))
-                .afterTime(0,armDown())
                 .afterTime(1,closeClaw())
-                .afterTime(1,armUp())
 
-                // grab item
-                // move to bucket
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(50,-60),Math.toRadians(270))
+
+                .splineToLinearHeading(new Pose2d(6, -35,Math.toRadians(90)), Math.toRadians(180))
                 .afterTime(0,extendArm())
                 .afterTime(1,openClaw())
                 .afterTime(1,retractArm())
-                // place into bucket (extend arm and release block)
 
-                // move to last block
-                .splineToLinearHeading(new Pose2d(55, 25.5, Math.toRadians(0)), Math.toRadians(0))
-                .afterTime(0,armDown())
-                .afterTime(1,closeClaw())
-                .afterTime(1,armUp())
-                // grab item
+                .setTangent(180)
 
-                // move to bucket
-                .strafeToLinearHeading(new Vector2d(54, 54), Math.toRadians(45))
-                .afterTime(0,extendArm())
-                .afterTime(1,openClaw())
-                .afterTime(1,retractArm())
-                // place into bucket (extend arm and release block)
-
-                // park
-                .strafeToLinearHeading(new Vector2d(50,10),Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(25, 10), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(50,-60,Math.toRadians(90)),Math.toRadians(0))
 
 
                 .endTrajectory();

@@ -60,7 +60,6 @@ public class regionalsTeleOp extends OpMode {
             //Extend linear lift
             if(gamepad1.left_bumper){
                 //Test values
-                linearLift.setTargetPosition(1);
 
             }
 
@@ -109,6 +108,7 @@ public class regionalsTeleOp extends OpMode {
                 linkage.setPosition(0);
             }
 
+            //Put at specimen height
             if(gamepad2.left_stick_button){
                 //Find value
                 linearLift.setTargetPosition(1);

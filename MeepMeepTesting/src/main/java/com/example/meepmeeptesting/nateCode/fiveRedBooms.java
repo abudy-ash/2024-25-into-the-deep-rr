@@ -22,7 +22,6 @@ public class fiveRedBooms {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(24, -60, Math.toRadians(90)))
 
 
-//                .strafeToLinearHeading(new Vector2d(-6, 35), Math.toRadians(270))
                 .strafeToLinearHeading(new Vector2d(35,-60), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(35,38),Math.toRadians(90))
 

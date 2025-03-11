@@ -22,7 +22,6 @@ public class fiveBlueBooms {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-24, 60, Math.toRadians(270)))
 
 
-//                .strafeToLinearHeading(new Vector2d(-6, 35), Math.toRadians(270))
                 .strafeToLinearHeading(new Vector2d(-35,60), Math.toRadians(270))
                 .strafeToLinearHeading(new Vector2d(-35,-38),Math.toRadians(270))
 
@@ -57,12 +56,6 @@ public class fiveBlueBooms {
                 .setTangent(90)
 
                 .splineToLinearHeading(new Pose2d(-50,60,Math.toRadians(270)),Math.toRadians(0))
-
-
-
-
-
-
 
 
 
