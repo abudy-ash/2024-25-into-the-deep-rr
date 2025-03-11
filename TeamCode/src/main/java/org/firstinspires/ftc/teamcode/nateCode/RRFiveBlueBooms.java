@@ -12,12 +12,15 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 
 //Non-RR
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+
+@Disabled
 @Autonomous(name="Five BLUE Booms", group="Autonomous")
 public class RRFiveBlueBooms extends LinearOpMode {
 

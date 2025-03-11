@@ -167,7 +167,6 @@ public class RRRedParkObservation extends LinearOpMode {
                 .afterTime(1,retractArm())
 
                 // place into bucket (extend arm and release block)
-
                 .strafeToLinearHeading(new Vector2d(35, -55), Math.toRadians(90))
                 .afterTime(0,retractLift())
                 .afterTime(0,armDown())
