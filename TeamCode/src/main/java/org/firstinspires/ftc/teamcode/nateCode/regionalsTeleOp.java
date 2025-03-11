@@ -1,19 +1,13 @@
-package org.firstinspires.ftc.teamcode.darshCode;
+package org.firstinspires.ftc.teamcode.nateCode;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
-
-import org.firstinspires.ftc.robotcore.internal.system.Deadline;
-
-import java.util.concurrent.TimeUnit;
 
 @TeleOp(name="Regionals TeleOp")
 public class regionalsTeleOp extends OpMode {
@@ -133,35 +127,6 @@ public class regionalsTeleOp extends OpMode {
                 wrist.setPosition(0);
             }
 
-            //Add stuff for face buttons but idk which positions zeke wants
-
-
-            //OUT OF DATE STUFF SEE ABOVE   
-//        // CONTROLLER 2
-//            // Arm
-//                // DC Motors
-//                    linearLift.setPower(Math.pow(gamepad2.left_stick_y, 3)); // Joystick strength ranges from -1 to 1
-//
-//                    // Get Angle from Triggers (these values range from 0-1)
-//                    double angleUp = Math.pow(gamepad2.left_trigger, 3);
-//                    double angleDown = -Math.pow(gamepad2.right_trigger, 3);
-//                    double armAngle = angleUp + angleDown;
-//                    armRotator.setPower(armAngle);
-//
-//                // Arm Servo
-//                    double armLength = (gamepad2.right_stick_y+1)/2; // Transforms range of -1 to 1 onto servo power of 0 to 1
-//                    linkage.setPosition(armLength);
-//
-//                // Claw Servos
-//                    // Claw Wrist
-//                        if (gamepad2.dpad_down) {claw.setPosition(0);}
-//                        if (gamepad2.dpad_up) {claw.setPosition(1);}
-//
-//                    // Claw
-//                        if (gamepad2.left_bumper) {claw.setPosition(0);}
-//                        if (gamepad2.right_bumper) {claw.setPosition(1);}
-
-        //For Color Detection and updating the LED
         colorRecognition();
 
         telemetry.update();
@@ -201,7 +166,6 @@ public class regionalsTeleOp extends OpMode {
 
         imu = hardwareMap.get(IMU.class,"imu");
 
-        // Zero Brake behavior
 
         // Movement (might not be necessary/waste power)
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
