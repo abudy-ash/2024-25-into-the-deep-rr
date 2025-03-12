@@ -44,22 +44,24 @@ public class regionalsTeleOp extends OpMode {
         double frontRightPower = (y - x - rx) / denominator;
         double backRightPower = (y + x - rx) / denominator;
 
-        frontRightDrive.setPower(-frontRightPower);
+        frontRightDrive.setPower(frontRightPower);
         backRightDrive.setPower(-backRightPower);
-        frontLeftDrive.setPower(-frontLeftPower);
-        backLeftDrive.setPower(-backLeftPower);
+        frontLeftDrive.setPower(frontLeftPower);
+        backLeftDrive.setPower(backLeftPower);
 
         //Gamepad 1
             //Open Spring
             if(gamepad1.x || gamepad1.square || gamepad1.triangle || gamepad1.circle){
                 //Test to see if 0 is open or close
                 springLeft.setPosition(0);
-                springRight.setPosition(0);
+                springRight.setPosition(1);
             }
 
             //Extend linear lift
             if(gamepad1.left_bumper){
                 //Test values
+                linearLift.setTargetPosition(999);
+                linearLift.setPower(.5);
 
             }
 
@@ -67,21 +69,26 @@ public class regionalsTeleOp extends OpMode {
             if(gamepad1.right_bumper){
                 //Test Values
                 linearLift.setTargetPosition(0);
+                linearLift.setPower(.5);
             }
 
             //Rotate hanging backwards
-            if(gamepad1.left_trigger > 0.5){
-                hangingLeft.setTargetPosition(1);
-                hangingRight.setTargetPosition(1);
+            if(gamepad1.left_trigger > 0.2){
+                hangingLeft.setTargetPosition(100);
+                hangingRight.setTargetPosition(100);
+                hangingLeft.setPower(.8);
+                hangingRight.setPower(.8);
             }
 
             //
             //Rotate hanging forward
-            if(gamepad1.right_trigger > 0.5){
+            if(gamepad1.right_trigger > 0.2){
                 //These might be wrong values idk i'm losing my mind fix it later
                 //It's like 12 am i'm bugging out
                 hangingLeft.setTargetPosition(0);
                 hangingRight.setTargetPosition(0);
+                hangingLeft.setPower(.8);
+                hangingRight.setPower(.8);
             }
 
 
@@ -151,10 +158,21 @@ public class regionalsTeleOp extends OpMode {
         frontRightDrive = hardwareMap.get(DcMotorEx.class,"frontRight");
         frontLeftDrive = hardwareMap.get(DcMotorEx.class,"frontLeft");
         hangingLeft = hardwareMap.get(DcMotorEx.class, "hangingLeft");
+        hangingLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hangingLeft.setTargetPosition(0);
+        hangingLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         hangingRight = hardwareMap.get(DcMotorEx.class, "hangingRight");
-
+        hangingRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hangingRight.setTargetPosition(0);
+        hangingRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearLift = hardwareMap.get(DcMotorEx.class,"linearLift");
+        linearLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearLift.setTargetPosition(0);
+        linearLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armRotator = hardwareMap.get(DcMotorEx.class,"armRotator");
+        armRotator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotator.setTargetPosition(0);
+        armRotator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         claw = hardwareMap.get(Servo.class, "claw");
         linkage = hardwareMap.get(Servo.class, "linkage");
