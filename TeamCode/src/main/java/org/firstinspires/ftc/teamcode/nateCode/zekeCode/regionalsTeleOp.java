@@ -1,5 +1,5 @@
-package org.firstinspires.ftc.teamcode.nateCode;
-
+package org.firstinspires.ftc.teamcode.nateCode.zekeCode;
+//I wanted my own folder just to fit in lol
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
