@@ -214,9 +214,7 @@ public class RRRedNetAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(-50,-10),Math.toRadians(0))
                 .strafeToLinearHeading(new Vector2d(-25, -10), Math.toRadians(0))
 
-
                 .endTrajectory();
-
 
 
 

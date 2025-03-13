@@ -38,6 +38,19 @@ public class regionalsTeleOp extends LinearOpMode {
     }
     public void darshTeleOp(){
 
+        boolean liftUp = gamepad1.left_bumper;
+        boolean liftDown = gamepad1.right_bumper;
+        boolean hangingBack = gamepad1.left_trigger > 0;
+        boolean hangingForward = gamepad1.right_trigger > 0;
+        boolean openClaw = gamepad2.left_trigger > 0;
+        boolean closeClaw = gamepad2.right_trigger > 0;
+        boolean extendSlide = gamepad2.dpad_up;
+        boolean retractSlide = gamepad2.dpad_down;
+        boolean specimenHeight = gamepad2.left_stick_button;
+        float rotateArm = gamepad2.right_stick_y;
+        boolean wristUp = gamepad2.left_bumper;
+        boolean wristDown = gamepad2.right_bumper;
+
 
         // Movement
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -54,7 +67,7 @@ public class regionalsTeleOp extends LinearOpMode {
         double backRightPower = (y + x - rx) / denominator;
 
         hardware.frontRightDrive.setPower(frontRightPower);
-        hardware.backRightDrive.setPower(-backRightPower);
+        hardware.backRightDrive.setPower(-backRightPower); //change to reverse in hw map
         hardware.frontLeftDrive.setPower(frontLeftPower);
         hardware.backLeftDrive.setPower(backLeftPower);
 
@@ -71,7 +84,7 @@ public class regionalsTeleOp extends LinearOpMode {
             }
 
             //Extend linear lift
-            if(gamepad1.left_bumper){
+            if(liftUp){
                 //Test values
                 hardware.linearLift.setTargetPosition(999);
                 hardware.linearLift.setPower(1);
@@ -79,14 +92,14 @@ public class regionalsTeleOp extends LinearOpMode {
             }
 
             //Retract linear lift
-            if(gamepad1.right_bumper){
+            if(liftDown){
                 //Test Values
                 hardware.linearLift.setTargetPosition(-1);
                 hardware.linearLift.setPower(1);
             }
 
             //Rotate hanging backwards
-            if(gamepad1.left_trigger >.01){
+            if(hangingBack){
                 hardware.hangingLeft.setTargetPosition(100);
                 hardware.hangingRight.setTargetPosition(100);
                 hardware.hangingLeft.setPower(.8);
@@ -95,7 +108,7 @@ public class regionalsTeleOp extends LinearOpMode {
 
             //
             //Rotate hanging forward
-            if(gamepad1.right_trigger > 0.01){
+            if(hangingForward){
                 //These might be wrong values idk i'm losing my mind fix it later
                 //It's like 12 am i'm bugging out
                 hardware.hangingLeft.setTargetPosition(0);
@@ -107,47 +120,47 @@ public class regionalsTeleOp extends LinearOpMode {
 
         //Gamepad 2
             //Open claw
-            if(gamepad2.left_trigger > 0.2) {
+            if(openClaw) {
                 hardware.claw.setPosition(0);
             }
 
             //Close claw
-            if(gamepad2.right_trigger > 0.2) {
+            if(closeClaw) {
                 hardware.claw.setPosition(1);
             }
 
             //Extend Horizontal Slide
-            if(gamepad2.dpad_up) {
+            if(extendSlide) {
                 hardware.linkage.setPosition(1);
             }
 
             //Retract Horizontal Slide
-            if(gamepad2.dpad_down) {
+            if(retractSlide) {
                 hardware.linkage.setPosition(0);
             }
 
             //Put at specimen height
-            if(gamepad2.left_stick_button) {
+            if(specimenHeight) {
                 hardware.linearLift.setTargetPosition(500); //Test
                 hardware.linearLift.setPower(0.8);
             }
 
             //Rotate arm
-        hardware.armRotator.setPower(gamepad2.right_stick_y);
+            hardware.armRotator.setPower(rotateArm);
 
             //Wrist up
-            if(gamepad2.left_bumper) {
+            if(wristUp) {
                 hardware.wrist.setPosition(1);
             }
 
             //Wrist down
-            if(gamepad2.right_bumper) {
+            if(wristDown) {
                 hardware.wrist.setPosition(0);
             }
 
-        colorRecognition();
+            colorRecognition();
 
-        telemetry.update();
+            telemetry.update();
 
     }
 
