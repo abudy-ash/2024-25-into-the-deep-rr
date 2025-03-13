@@ -65,24 +65,28 @@ public class regionalsTeleOp extends LinearOpMode {
                 hardware.springLeft.setPosition(0);
                 hardware.springRight.setPosition(1);
             }
+            if(gamepad1.x || gamepad1.square || gamepad1.triangle || gamepad1.circle){
+                hardware.springRight.setPosition(1);
+                hardware.springLeft.setPosition(0);
+            }
 
             //Extend linear lift
             if(gamepad1.left_bumper){
                 //Test values
                 hardware.linearLift.setTargetPosition(999);
-                hardware.linearLift.setPower(.5);
+                hardware.linearLift.setPower(1);
 
             }
 
             //Retract linear lift
             if(gamepad1.right_bumper){
                 //Test Values
-                hardware.linearLift.setTargetPosition(0);
-                hardware.linearLift.setPower(.5);
+                hardware.linearLift.setTargetPosition(-1);
+                hardware.linearLift.setPower(1);
             }
 
             //Rotate hanging backwards
-            if(gamepad1.left_trigger > 0.2){
+            if(gamepad1.left_trigger >.01){
                 hardware.hangingLeft.setTargetPosition(100);
                 hardware.hangingRight.setTargetPosition(100);
                 hardware.hangingLeft.setPower(.8);
@@ -91,7 +95,7 @@ public class regionalsTeleOp extends LinearOpMode {
 
             //
             //Rotate hanging forward
-            if(gamepad1.right_trigger > 0.2){
+            if(gamepad1.right_trigger > 0.01){
                 //These might be wrong values idk i'm losing my mind fix it later
                 //It's like 12 am i'm bugging out
                 hardware.hangingLeft.setTargetPosition(0);
@@ -103,16 +107,24 @@ public class regionalsTeleOp extends LinearOpMode {
 
         //Gamepad 2
             //Open claw
-            if(gamepad2.left_trigger > 0.2) {hardware.claw.setPosition(0);}
+            if(gamepad2.left_trigger > 0.2) {
+                hardware.claw.setPosition(0);
+            }
 
             //Close claw
-            if(gamepad2.right_trigger > 0.2) {hardware.claw.setPosition(1);}
+            if(gamepad2.right_trigger > 0.2) {
+                hardware.claw.setPosition(1);
+            }
 
             //Extend Horizontal Slide
-            if(gamepad2.dpad_up) {hardware.linkage.setPosition(1);}
+            if(gamepad2.dpad_up) {
+                hardware.linkage.setPosition(1);
+            }
 
             //Retract Horizontal Slide
-            if(gamepad2.dpad_down) {hardware.linkage.setPosition(0);}
+            if(gamepad2.dpad_down) {
+                hardware.linkage.setPosition(0);
+            }
 
             //Put at specimen height
             if(gamepad2.left_stick_button) {
@@ -124,10 +136,14 @@ public class regionalsTeleOp extends LinearOpMode {
         hardware.armRotator.setPower(gamepad2.right_stick_y);
 
             //Wrist up
-            if(gamepad2.left_bumper) {hardware.wrist.setPosition(1);}
+            if(gamepad2.left_bumper) {
+                hardware.wrist.setPosition(1);
+            }
 
             //Wrist down
-            if(gamepad2.right_bumper) {hardware.wrist.setPosition(0);}
+            if(gamepad2.right_bumper) {
+                hardware.wrist.setPosition(0);
+            }
 
         colorRecognition();
 
