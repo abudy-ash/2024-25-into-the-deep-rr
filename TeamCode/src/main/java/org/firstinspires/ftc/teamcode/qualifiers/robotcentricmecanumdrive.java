@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.qualifiers;
 
 import static java.lang.Boolean.FALSE;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-
+@Disabled
 @TeleOp
 public class robotcentricmecanumdrive extends LinearOpMode {
 

@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.testchassis;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
-
+@Disabled
 @TeleOp(name="HuskyLens Test", group="Test")
 public class HuskyLensTestOpMode extends LinearOpMode {
 //    hardwaremapTestChassis robot = new hardwaremapTestChassis();

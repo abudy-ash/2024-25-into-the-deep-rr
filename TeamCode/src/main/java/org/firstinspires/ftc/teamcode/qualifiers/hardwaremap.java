@@ -100,6 +100,8 @@ public class hardwaremap {
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftSpool.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightSpool.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
     }
 
     public void robotPower(double power) {

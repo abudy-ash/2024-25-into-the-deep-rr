@@ -12,6 +12,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 //Non-RR
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -22,14 +23,11 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name="RR Red Park Observation", group="Autonomous")
 public class RRRedParkObservation extends LinearOpMode {
 
-    DcMotorEx backLeftDrive, backRightDrive, frontLeftDrive, frontRightDrive;
-    Servo claw,linkage, wrist;
-    DcMotorEx linearLift, armRotator;
-    public IMU imu;
+    regionalsHardwareMap hardware = new regionalsHardwareMap();
     public class CloseClaw implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            claw.setPosition(0);
+            hardware.claw.setPosition(0);
             return false;
         }
     }
@@ -37,7 +35,7 @@ public class RRRedParkObservation extends LinearOpMode {
     public class OpenClaw implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            claw.setPosition(1);
+            hardware.claw.setPosition(1);
             return false;
         }
     }
@@ -46,7 +44,8 @@ public class RRRedParkObservation extends LinearOpMode {
     public class ExtendLift implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            linearLift.setTargetPosition(1);
+            hardware.linearLift.setTargetPosition(999);
+            hardware.linearLift.setPower(0.5);
             return false;
         }
     }
@@ -55,7 +54,8 @@ public class RRRedParkObservation extends LinearOpMode {
     public class RetractLift implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            linearLift.setTargetPosition(0);
+            hardware.linearLift.setTargetPosition(0);
+            hardware.linearLift.setPower(0.5);
             return false;
         }
     }
@@ -64,7 +64,7 @@ public class RRRedParkObservation extends LinearOpMode {
     public class WristUp implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            wrist.setPosition(1);
+            hardware.wrist.setPosition(1);
             return false;
         }
     }
@@ -73,7 +73,7 @@ public class RRRedParkObservation extends LinearOpMode {
     public class WristDown implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            wrist.setPosition(0);
+            hardware.wrist.setPosition(0);
             return false;
         }
     }
@@ -83,7 +83,8 @@ public class RRRedParkObservation extends LinearOpMode {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             //find value
-            linearLift.setTargetPosition(1);
+            hardware.linearLift.setTargetPosition(500);
+            hardware.linearLift.setPower(0.5);
             return false;
         }
     }
@@ -91,7 +92,7 @@ public class RRRedParkObservation extends LinearOpMode {
     public class ExtendArm implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            linkage.setPosition(1);
+            hardware.linkage.setPosition(1);
             return false;
         }
     }
@@ -99,7 +100,7 @@ public class RRRedParkObservation extends LinearOpMode {
     public class RetractArm implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            linkage.setPosition(0);
+            hardware.linkage.setPosition(0);
             return false;
         }
     }
@@ -107,7 +108,8 @@ public class RRRedParkObservation extends LinearOpMode {
     public class ArmUp implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            armRotator.setTargetPosition(1);
+            hardware.armRotator.setTargetPosition(999);
+            hardware.armRotator.setPower(0.5);
             return false;
         }
     }
@@ -115,7 +117,8 @@ public class RRRedParkObservation extends LinearOpMode {
     public class ArmDown implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            armRotator.setTargetPosition(0);
+            hardware.armRotator.setTargetPosition(0);
+            hardware.armRotator.setPower(0.5);
             return false;
         }
     }
@@ -131,24 +134,15 @@ public class RRRedParkObservation extends LinearOpMode {
     public Action retractArm() {return new ExtendArm();}
     public Action armUp() {return new ArmUp();}
     public Action armDown() {return new ArmDown();}
-    public void InitializationCode(){
-        backRightDrive = hardwareMap.get(DcMotorEx.class, "backRight");
-        backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeft");
-        frontRightDrive = hardwareMap.get(DcMotorEx.class,"frontRight");
-        frontLeftDrive = hardwareMap.get(DcMotorEx.class,"frontLeft");
-
-        linearLift = hardwareMap.get(DcMotorEx.class,"linearLift");
-        armRotator = hardwareMap.get(DcMotorEx.class,"armRotator");
-
-        claw = hardwareMap.get(Servo.class, "claw");
-        linkage = hardwareMap.get(Servo.class, "linkage");
-        wrist = hardwareMap.get(Servo.class, "wrist");
-    }
 
     @Override
     public void runOpMode() throws InterruptedException {
+        hardware.init(hardwareMap);
 
-        InitializationCode();
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        blinkinGreen();
 
         // instantiate your MecanumDrive at a particular pose.
         Pose2d initialPose = new Pose2d(24, -60, Math.toRadians(90));
@@ -195,10 +189,16 @@ public class RRRedParkObservation extends LinearOpMode {
 
         waitForStart();
 
+        blinkinPink();
+
         if (isStopRequested()) return;
 
         Actions.runBlocking(RedParkObservation.build());
     }
+
+    public void blinkinGreen() {hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}
+    public void blinkinPink(){hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);}
+
 }
 
 
