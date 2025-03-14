@@ -67,7 +67,7 @@ public class regionalsTeleOp extends LinearOpMode {
         double backRightPower = (y + x - rx) / denominator;
 
         hardware.frontRightDrive.setPower(frontRightPower);
-        hardware.backRightDrive.setPower(-backRightPower); //change to reverse in hw map
+        hardware.backRightDrive.setPower(backRightPower); //change to reverse in hw map
         hardware.frontLeftDrive.setPower(frontLeftPower);
         hardware.backLeftDrive.setPower(backLeftPower);
 

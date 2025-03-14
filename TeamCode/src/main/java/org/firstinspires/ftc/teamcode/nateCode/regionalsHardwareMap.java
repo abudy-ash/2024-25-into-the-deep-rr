@@ -4,6 +4,7 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -84,6 +85,8 @@ public class regionalsHardwareMap {
         armRotator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hangingLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hangingRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        backRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 
