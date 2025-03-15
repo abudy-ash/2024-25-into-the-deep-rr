@@ -197,6 +197,11 @@ public class RegTeleOp extends LinearOpMode {
             }
 
             colorRecognition();
+            telemetry.addData("backRightDrive", hardware.backRightDrive.getVelocity());
+            telemetry.addLine();
+            telemetry.addLine();
+            telemetry.addLine();
+
             telemetry.addData("linearlift current draw", hardware.linearLift.getCurrent(CurrentUnit.valueOf("MILLIAMPS")));
             telemetry.addData("springLeft Pose", hardware.springLeft.getPosition());
             telemetry.addData("springRight Pose", hardware.springRight.getPosition());
@@ -211,6 +216,7 @@ public class RegTeleOp extends LinearOpMode {
             telemetry.addData("armRotator", rotateArm);
             telemetry.addData("hangingLeft", hardware.hangingLeft.getCurrentPosition());
             telemetry.addData("hangingRight", hardware.hangingRight.getCurrentPosition());
+
             telemetry.update();
 
 
