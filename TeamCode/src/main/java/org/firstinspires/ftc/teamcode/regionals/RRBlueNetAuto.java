@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name="RR Blue Net Auto", group="Autonomous")
 public class RRBlueNetAuto extends LinearOpMode {
 
-    regionalsHardwareMap hardware = new regionalsHardwareMap();
+    regionalsHardwaremap hardware = new regionalsHardwaremap();
 
 
 

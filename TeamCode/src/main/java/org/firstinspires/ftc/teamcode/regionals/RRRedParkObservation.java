@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name="RR Red Observation", group="Autonomous")
 public class RRRedParkObservation extends LinearOpMode {
 
-    regionalsHardwareMap hardware = new regionalsHardwareMap();
+    regionalsHardwaremap hardware = new regionalsHardwaremap();
     public class CloseClaw implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
