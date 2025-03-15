@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 @TeleOp(name = "TeleOp")
 public class RegTeleOp extends LinearOpMode {
 
@@ -26,12 +28,17 @@ public class RegTeleOp extends LinearOpMode {
 
         hardware.huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
+
         telemetry.addData("Status", "Initialized");
+        hardware.linkage.setPosition(1);
         telemetry.update();
+
+
 
         blinkinGreen();
 
         waitForStart();
+
 
         linearMin = hardware.linearLift.getCurrentPosition();
 
@@ -62,7 +69,7 @@ public class RegTeleOp extends LinearOpMode {
         if(hardware.linearLift.getCurrentPosition() >= linearMin){
             hardware.linearLift.setPower(liftSpeed);
         } else {
-            hardware.linearLift.setPower(-liftSpeed);
+            hardware.linearLift.setPower(Math.pow(liftSpeed, 2));
         }
 
         boolean hangingBack = gamepad1.left_trigger > 0;
@@ -101,7 +108,7 @@ public class RegTeleOp extends LinearOpMode {
             if(gamepad1.dpad_up){
                 //Test to see if 0 is open or close
                 hardware.springLeft.setPosition(1);
-                hardware.springRight.setPosition(0);
+                hardware.springRight.setPosition(-1);
             }
 
             //Extend linear lift
@@ -121,23 +128,28 @@ public class RegTeleOp extends LinearOpMode {
 
 
 
+
             //Rotate hanging backwards
             if(hangingBack){
-                hardware.hangingLeft.setTargetPosition(100);
-                hardware.hangingRight.setTargetPosition(100);
-                hardware.hangingLeft.setPower(.8);
-                hardware.hangingRight.setPower(.8);
+                gamepad1.rumble(100);
+                gamepad2.rumble(100);
+                hardware.hangingLeft.setPower(1);
+                hardware.hangingRight.setPower(1);
+                hardware.hangingLeft.setTargetPosition(0);
+                hardware.hangingRight.setTargetPosition(0);
             }
 
             //
             //Rotate hanging forward
             if(hangingForward){
-                //These might be wrong values idk i'm losing my mind fix it later
-                //It's like 12 am i'm bugging out
-                hardware.hangingLeft.setTargetPosition(0);
-                hardware.hangingRight.setTargetPosition(0);
-                hardware.hangingLeft.setPower(.8);
-                hardware.hangingRight.setPower(.8);
+                gamepad1.rumble(100);
+                gamepad2.rumble(100);
+                hardware.hangingLeft.setPower(1);
+                hardware.hangingRight.setPower(1);
+                hardware.hangingRight.setTargetPosition(700);
+                hardware.hangingRight.setTargetPosition(700);
+                hardware.hangingLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                hardware.hangingRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
 
@@ -154,21 +166,24 @@ public class RegTeleOp extends LinearOpMode {
 
             //Extend Horizontal Slide
             if(extendSlide) {
-                hardware.linkage.setPosition(1);
+                hardware.linkage.setPosition(0);
             }
 
             //Retract Horizontal Slide
             if(retractSlide) {
-                hardware.linkage.setPosition(0);
+                hardware.linkage.setPosition(1);
             }
 
             //Put at specimen height
+        // there is a ~1.15 voltage loss at max height, when reached, use ohms law to calculate the current given that reistance is 470 ohms
             if(specimenHeight) {
-                hardware.linearLift.setTargetPosition(500); //Test
-                hardware.linearLift.setPower(0.8);
+                while(hardware.linearLift.getCurrent(CurrentUnit.valueOf("MILLIAMPS")) < 2.45) {
+                    hardware.linearLift.setPower(1);
+                }
+                hardware.linearLift.setPower(0);
             }
 
-            //Rotate arm
+            // Rotate arm
             hardware.armRotator.setPower(rotateArm);
 
             //Wrist up
@@ -182,6 +197,7 @@ public class RegTeleOp extends LinearOpMode {
             }
 
             colorRecognition();
+            telemetry.addData("linearlift current draw", hardware.linearLift.getCurrent(CurrentUnit.valueOf("MILLIAMPS")));
             telemetry.addData("springLeft Pose", hardware.springLeft.getPosition());
             telemetry.addData("springRight Pose", hardware.springRight.getPosition());
             telemetry.addData("linkage Pose", hardware.linkage.getPosition());
@@ -193,6 +209,8 @@ public class RegTeleOp extends LinearOpMode {
             telemetry.addData("LinearPos", hardware.linearLift.getCurrentPosition());
             telemetry.addData("LinearMin", linearMin);
             telemetry.addData("armRotator", rotateArm);
+            telemetry.addData("hangingLeft", hardware.hangingLeft.getCurrentPosition());
+            telemetry.addData("hangingRight", hardware.hangingRight.getCurrentPosition());
             telemetry.update();
 
 
