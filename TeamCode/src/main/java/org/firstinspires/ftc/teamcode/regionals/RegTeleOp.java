@@ -7,7 +7,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
@@ -16,7 +15,7 @@ public class RegTeleOp extends LinearOpMode {
 
     int linearMin = 0;
 
-    regionalsHardwareMap hardware = new regionalsHardwareMap();
+    regionalsHardwaremap hardware = new regionalsHardwaremap();
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -107,9 +106,10 @@ public class RegTeleOp extends LinearOpMode {
             //Open Spring
             if(gamepad1.dpad_up){
                 //Test to see if 0 is open or close
-                hardware.springLeft.setPosition(1);
-                hardware.springRight.setPosition(-1);
-            }
+                hardware.springLeft.setPosition(-1);
+                hardware.springRight.setPosition(1);
+                }
+
 
             //Extend linear lift
 //            if(liftUp){
@@ -255,7 +255,9 @@ public class RegTeleOp extends LinearOpMode {
         }
     }
 
-    public void blinkinRed(){hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);}
+    public void blinkinRed(){
+                hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        }
     public void blinkinGreen(){hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}
     public void blinkinYellow(){hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);}
     public void blinkinBlue(){hardware.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);}

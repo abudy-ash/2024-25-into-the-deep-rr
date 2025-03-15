@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name="RR Red Net Auto", group="Autonomous")
 public class RRRedNetAuto extends LinearOpMode {
 
-    regionalsHardwareMap hardware = new regionalsHardwareMap();
+    regionalsHardwaremap hardware = new regionalsHardwaremap();
 
     public class CloseClaw implements Action {
         @Override
