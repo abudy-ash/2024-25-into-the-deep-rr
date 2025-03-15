@@ -38,6 +38,7 @@ public class robotcentricmecanumdrive extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
             double r = gamepad1.right_stick_x;
+            double z = gamepad2.touchpad_finger_2_x;
 
 
 
