@@ -5,14 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.regionals.regionalsHardwareMap;
+
 @TeleOp(name="Encoder Test",group="Testing")
 public class motorEncoderTest extends LinearOpMode {
 
-    regionalsHardwareMap hardware = new regionalsHardwareMap();
+    DcMotorEx linearLift;
 
     public void runOpMode() throws InterruptedException{
-        hardware.init(hardwareMap);
-        hardware.linearLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearLift = hardwareMap.get(DcMotorEx.class,"linearLift");
+        linearLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         int position;
 
@@ -22,7 +24,7 @@ public class motorEncoderTest extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()){
-            position = hardware.linearLift.getCurrentPosition();
+            position = linearLift.getCurrentPosition();
             telemetry.addData("Position:",position);
             telemetry.update();
         }

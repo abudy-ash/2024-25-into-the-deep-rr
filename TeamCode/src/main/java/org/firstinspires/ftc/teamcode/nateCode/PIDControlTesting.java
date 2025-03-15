@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDControlTesting extends LinearOpMode {
 
-    DcMotorEx frontLeft, frontRight, backLeft, backRight;
+    DcMotorEx linearLift;
 
     double integralSum = 0;
     double Kp = 0;
@@ -24,19 +24,9 @@ public class PIDControlTesting extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        frontLeft = hardwareMap.get(DcMotorEx.class,"frontLeft");
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        linearLift = hardwareMap.get(DcMotorEx.class,"linearLift");
+        linearLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        frontRight = hardwareMap.get(DcMotorEx.class,"frontRight");
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        backLeft = hardwareMap.get(DcMotorEx.class,"backLeft");
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        backRight = hardwareMap.get(DcMotorEx.class,"backRight");
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         imu = hardwareMap.get(BNO055IMU.class,"imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -56,10 +46,7 @@ public class PIDControlTesting extends LinearOpMode {
         while(opModeIsActive()){
             double power = PidControl(referenceAngle, imu.getAngularOrientation().firstAngle);
 
-            frontLeft.setPower(power);
-            frontRight.setPower(power);
-            backLeft.setPower(power);
-            backRight.setPower(power);
+            linearLift.setPower(power);
         }
 
     }
