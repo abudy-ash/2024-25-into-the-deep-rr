@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.regionals;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,7 +22,9 @@ public class regionalsHardwaremap {
     DcMotorEx linearLift, armRotator, hangingLeft, hangingRight;
 
     // Intake Servos
-    Servo claw, springLeft, springRight, linkage, wrist;
+    Servo claw, springLeft, springRight, linkage;
+
+    CRServo wrist;
 
     HardwareMap hardwareMap;
 
@@ -64,7 +67,7 @@ public class regionalsHardwaremap {
 
         claw = hardwareMap.get(Servo.class, "claw");
         linkage = hardwareMap.get(Servo.class, "linkage");
-        wrist = hardwareMap.get(Servo.class, "wrist");
+        wrist = hardwareMap.get(CRServo.class, "wrist");
         springLeft = hardwareMap.get(Servo.class,"springLeft");
         springRight = hardwareMap.get(Servo.class,"springRight");
 

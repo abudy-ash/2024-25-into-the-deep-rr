@@ -62,7 +62,7 @@ public class RRBlueParkObservation extends LinearOpMode {
     public class WristUp implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            hardware.wrist.setPosition(1);
+            hardware.wrist.setPower(1);
             return false;
         }
     }
@@ -71,7 +71,7 @@ public class RRBlueParkObservation extends LinearOpMode {
     public class WristDown implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            hardware.wrist.setPosition(0);
+            hardware.wrist.setPower(0);
             return false;
         }
     }

@@ -10,11 +10,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-@TeleOp(name = "TeleOp")
-public class RegTeleOp extends LinearOpMode {
+@TeleOp(name = "TeleOp Testing")
+public class RegTeleOpTesting extends LinearOpMode {
 
     int linearMin = 0;
-    double clawPos = 0.35;
+    double baseline = 0.2;
 
     regionalsHardwaremap hardware = new regionalsHardwaremap();
 
@@ -25,12 +25,11 @@ public class RegTeleOp extends LinearOpMode {
 
         hardware.init(hardwareMap);
 
-
         hardware.huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
 
         telemetry.addData("Status", "Initialized");
-        hardware.linkage.setPosition(0.9);
+        hardware.linkage.setPosition(1);
         telemetry.update();
 
 
@@ -39,39 +38,50 @@ public class RegTeleOp extends LinearOpMode {
 
         waitForStart();
 
+        hardware.linearLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearMin = hardware.linearLift.getCurrentPosition();
+
 
         blinkinBlack();
 
 
         while (opModeIsActive()){
             darshTeleOp();
-
         }
     }
     public void darshTeleOp(){
 
+        telemetry.addData("Lift Start Pos:", linearMin);
+        telemetry.addData("Lift Pos", hardware.linearLift.getCurrentPosition());
+
 //        boolean liftUp = gamepad1.left_bumper;
 //        boolean liftDown = gamepad1.right_bumper;
 
-
-
-
         double lift = -gamepad2.left_stick_y;
+        double liftSpeed;
 
+        if(lift<0){
+            liftSpeed = 0.5*lift;
+        }
+        else{
+            liftSpeed = lift;
+        }
 
         if(hardware.linearLift.getCurrentPosition() >= linearMin){
-            hardware.linearLift.setPower(lift);
+            hardware.linearLift.setPower(liftSpeed);
         } else {
-            hardware.linearLift.setPower(Math.pow(lift, 2));
+            hardware.linearLift.setPower(Math.pow(liftSpeed, 2));
         }
 
-        if(gamepad2.dpad_right){
-            hardware.linearLift.setPower(-1);
-        }
-        if(gamepad2.dpad_left){
-            hardware.linearLift.setPower(1);
-        }
+//        if(lift != 0){
+//
+//        } else{
+//            hardware.linearLift.setPower(baseline);
+//        }
+
+
+
+
 
         boolean hangingBack = gamepad1.left_trigger > 0;
         boolean hangingForward = gamepad1.right_trigger > 0;
@@ -106,10 +116,7 @@ public class RegTeleOp extends LinearOpMode {
 
         //Gamepad 1
         //Open Spring
-
         if(gamepad1.dpad_up){
-            gamepad1.rumble(100);
-            gamepad2.rumble(100);
             //Test to see if 0 is open or close
             hardware.springLeft.setPosition(-0.7);
             hardware.springRight.setPosition(0.7);
@@ -144,31 +151,23 @@ public class RegTeleOp extends LinearOpMode {
 
         //Gamepad 2
         //Open claw
-        if(openClaw){
-            hardware.claw.setPosition(0.4);
+        if(openClaw) {
+            hardware.claw.setPosition(0.9);
         }
-//        if (openClaw || closeClaw) {
-//            if (gamepad1.left_bumper) { // && !gamepad2.right_bumper) {
-//                clawPos += 0.05;
-//            }
-//            else if (gamepad1.right_bumper) { // && !gamepad1.left_bumper) {
-//                clawPos -= 0.05;
-//            }
-//            if (clawPos > 0.4) clawPos = 0.4;
-//            if (clawPos < 0) clawPos = 0;
-//            hardware.claw.setPosition(clawPos);
-//            sleep(50);
-//        }
-        telemetry.addData("Hand Position: ", clawPos);
+
+        //Close claw
+        if(closeClaw) {
+            hardware.claw.setPosition(-1);
+        }
 
         //Extend Horizontal Slide
         if(extendSlide) {
-            hardware.linkage.setPosition(0.1);
+            hardware.linkage.setPosition(0.25);
         }
 
         //Retract Horizontal Slide
         if(retractSlide) {
-            hardware.linkage.setPosition(0.9);
+            hardware.linkage.setPosition(0.75);
         }
 
         //Put at specimen height
@@ -185,12 +184,12 @@ public class RegTeleOp extends LinearOpMode {
 
         //Wrist up
         if(wristUp) {
-            hardware.wrist.setPower(1);
+            hardware.wrist.setPosition(1);
         }
 
         //Wrist down
         if(wristDown) {
-            hardware.wrist.setPower(-1);
+            hardware.wrist.setPosition(0);
         }
 
         colorRecognition();
